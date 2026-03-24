@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Racing Centers
  * Plugin URI:        https://example.com/racing-centers
- * Description:       A data-driven system for managing Racing Centers — CPT, meta boxes, and structured admin UI.
- * Version:           2.0.0
+ * Description:       A data-driven system for managing Racing Centers — CPT, meta boxes, admin UI, and Elementor Dynamic Tags.
+ * Version:           2.1.0
  * Requires at least: 6.0
  * Requires PHP:      8.2
  * Author:            Your Name
@@ -35,7 +35,7 @@ final class Racing_Centers {
 	 *
 	 * @var string
 	 */
-	const VERSION = '2.0.0';
+	const VERSION = '2.1.0';
 
 	/**
 	 * Absolute path to the plugin root directory (no trailing slash).
@@ -129,6 +129,32 @@ final class Racing_Centers {
 			new RC_Meta_Boxes( $this->plugin_url );
 			new RC_Save();
 		}
+
+		// Elementor Dynamic Tags — hook fires only when Elementor is active.
+		add_action( 'elementor/dynamic_tags/register', array( $this, 'register_elementor_tags' ) );
+	}
+
+	// -------------------------------------------------------------------------
+	// Elementor integration
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Load and initialise the Elementor Dynamic Tags module.
+	 *
+	 * Hooked to: elementor/dynamic_tags/register
+	 * This action is fired by Elementor — it never fires if Elementor is absent,
+	 * so the code below is 100% safe without a class_exists() guard.
+	 *
+	 * @param \Elementor\Core\DynamicTags\Manager $dynamic_tags Elementor's Dynamic Tags manager.
+	 */
+	public function register_elementor_tags( $dynamic_tags ): void {
+		// Extra safety: confirm Elementor base tag class is available.
+		if ( ! class_exists( '\Elementor\Core\DynamicTags\Tag' ) ) {
+			return;
+		}
+
+		require_once self::PLUGIN_DIR . '/includes/elementor/class-dynamic-tags.php';
+		new RC_Dynamic_Tags( $dynamic_tags );
 	}
 }
 
