@@ -139,32 +139,45 @@ abstract class RC_Tag_URL_Base extends RC_Tag_Base {
  * render() outputs the full-size attachment URL — the format Elementor
  * expects for IMAGE_CATEGORY dynamic tags.
  */
-abstract class RC_Tag_Image_Base extends RC_Tag_Base {
+abstract class RC_Tag_Image_Base extends \Elementor\Core\DynamicTags\Data_Tag {
 
-	/**
-	 * @return string
-	 */
 	abstract protected function get_meta_key(): string;
 
-	/**
-	 * @return array<string>
-	 */
-	public function get_categories(): array {
-		return array( \Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY );
+	protected function rc_meta( string $key ) {
+		return get_post_meta( get_the_ID(), $key, true );
 	}
 
-	/**
-	 * Echo the attachment URL, or nothing if the attachment does not exist.
-	 */
-	public function render(): void {
+	public function get_group(): string {
+		return 'racing-centers';
+	}
+
+	public function get_categories(): array {
+		return [ \Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY ];
+	}
+
+	public function get_value_type(): string {
+		return 'image';
+	}
+
+	public function get_value( array $options = [] ) {
+
+		error_log('GET VALUE CALLED');
+
 		$attachment_id = absint( $this->rc_meta( $this->get_meta_key() ) );
+
 		if ( ! $attachment_id ) {
-			return;
+			return null;
 		}
 
 		$url = wp_get_attachment_image_url( $attachment_id, 'full' );
-		if ( $url ) {
-			echo esc_url( $url );
+
+		if ( ! $url ) {
+			return null;
 		}
+
+		return [
+			'id'  => $attachment_id,
+			'url' => $url,
+		];
 	}
 }
