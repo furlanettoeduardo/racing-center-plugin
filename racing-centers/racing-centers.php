@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Racing Centers
  * Plugin URI:        https://example.com/racing-centers
- * Description:       A base plugin for managing Racing Centers data in WordPress.
- * Version:           1.0.0
+ * Description:       A data-driven system for managing Racing Centers — CPT, meta boxes, and structured admin UI.
+ * Version:           2.0.0
  * Requires at least: 6.0
  * Requires PHP:      8.2
  * Author:            Your Name
@@ -19,9 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Main plugin class.
+ * Main plugin bootstrap class.
  *
- * Encapsulates all plugin bootstrap logic to avoid polluting the global namespace.
+ * Responsible only for:
+ *   - Defining global constants
+ *   - Loading class files
+ *   - Instantiating feature classes
+ *
+ * All business logic lives in the dedicated classes inside /includes/.
  */
 final class Racing_Centers {
 
@@ -30,24 +35,42 @@ final class Racing_Centers {
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '2.0.0';
 
 	/**
-	 * Absolute path to the plugin directory (with trailing slash).
+	 * Absolute path to the plugin root directory (no trailing slash).
 	 *
 	 * @var string
 	 */
-	const PLUGIN_DIR = __DIR__ . DIRECTORY_SEPARATOR;
+	const PLUGIN_DIR = __DIR__;
 
 	/**
-	 * The single instance of this class (singleton).
+	 * Absolute URL to the plugin root directory (no trailing slash).
+	 *
+	 * @var string
+	 */
+	const PLUGIN_URL = ''; // Populated at runtime – see get_instance().
+
+	/**
+	 * Singleton instance.
 	 *
 	 * @var Racing_Centers|null
 	 */
 	private static ?Racing_Centers $instance = null;
 
 	/**
-	 * Returns (and creates, if needed) the singleton instance.
+	 * Plugin URL resolved at runtime (constant cannot call functions).
+	 *
+	 * @var string
+	 */
+	private string $plugin_url;
+
+	// -------------------------------------------------------------------------
+	// Bootstrap
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Returns the singleton instance, creating it on first call.
 	 *
 	 * @return Racing_Centers
 	 */
@@ -60,50 +83,54 @@ final class Racing_Centers {
 	}
 
 	/**
-	 * Private constructor – use get_instance() instead.
-	 *
-	 * Loads dependencies and registers WordPress hooks.
+	 * Constructor – loads files and wires up hooks.
 	 */
 	private function __construct() {
+		$this->plugin_url = untrailingslashit( plugin_dir_url( __FILE__ ) );
+
 		$this->load_dependencies();
-		$this->register_hooks();
+		$this->init_features();
 	}
 
+	// -------------------------------------------------------------------------
+	// Dependencies
+	// -------------------------------------------------------------------------
+
 	/**
-	 * Load all required include files.
+	 * Require all class files.
+	 * Order matters: base classes before derived ones.
 	 */
 	private function load_dependencies(): void {
-		// Admin page renderer (only needed in the admin area).
+		$includes = self::PLUGIN_DIR . '/includes/';
+
+		require_once $includes . 'class-cpt.php';
+		require_once $includes . 'class-admin-page.php';
+
+		// Admin-only classes.
 		if ( is_admin() ) {
-			require_once self::PLUGIN_DIR . 'includes/admin-page.php';
+			require_once $includes . 'class-meta-boxes.php';
+			require_once $includes . 'class-save.php';
 		}
 	}
 
-	/**
-	 * Register WordPress action / filter hooks.
-	 */
-	private function register_hooks(): void {
-		// Register the admin menu item.
-		add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
-	}
+	// -------------------------------------------------------------------------
+	// Feature initialisation
+	// -------------------------------------------------------------------------
 
 	/**
-	 * Add the "Racing Centers" top-level menu entry to the WordPress admin sidebar.
-	 *
-	 * Hooked to: admin_menu
+	 * Instantiate each feature class.
+	 * Each class registers its own hooks internally.
 	 */
-	public function register_admin_menu(): void {
-		add_menu_page(
-			__( 'Racing Centers', 'racing-centers' ), // Page <title> tag.
-			__( 'Racing Centers', 'racing-centers' ), // Sidebar label.
-			'manage_options',                          // Required capability.
-			'racing-centers',                          // Menu slug (unique identifier).
-			'rc_render_admin_page',                    // Callback that renders the page.
-			'dashicons-location-alt',                  // Dashicon class.
-			5                                          // Position – just below Posts (default 5).
-		);
+	private function init_features(): void {
+		new RC_CPT();
+		new RC_Admin_Page();
+
+		if ( is_admin() ) {
+			new RC_Meta_Boxes( $this->plugin_url );
+			new RC_Save();
+		}
 	}
 }
 
-// Bootstrap the plugin.
-Racing_Centers::get_instance();
+// Kick off the plugin after all plugins are loaded so CPT/meta is available.
+add_action( 'plugins_loaded', array( 'Racing_Centers', 'get_instance' ) );
