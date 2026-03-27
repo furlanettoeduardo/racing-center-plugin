@@ -244,6 +244,7 @@ class RC_Save {
 	 */
 	private function save_depoimentos( int $post_id ): void {
 		$this->save_text( $post_id, 'rc_google_place_id' );
+		$this->save_textarea( $post_id, 'rc_depoimentos_shortcode' );
 	}
 
 	/**

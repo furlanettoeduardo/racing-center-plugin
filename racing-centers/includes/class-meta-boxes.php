@@ -527,7 +527,13 @@ class RC_Meta_Boxes {
 			$post->ID,
 			'rc_google_place_id',
 			__( 'Google Place ID', 'racing-centers' ),
-			__( 'Used to fetch reviews via the Google Places API (future integration).', 'racing-centers' )
+			__( 'ID do local no Google Maps (para referência).', 'racing-centers' )
+		);
+		$this->textarea_field(
+			$post->ID,
+			'rc_depoimentos_shortcode',
+			__( 'Shortcode do Widget de Avaliações (Trustindex)', 'racing-centers' ),
+			__( 'Cole aqui o shortcode gerado pelo plugin Trustindex. Ex: [trustindex-show-reviews-rating-and-snapshot ...]', 'racing-centers' )
 		);
 		echo '</div>';
 	}

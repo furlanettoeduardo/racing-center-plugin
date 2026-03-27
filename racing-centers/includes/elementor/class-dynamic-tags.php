@@ -84,6 +84,7 @@ class RC_Dynamic_Tags {
 
 		// Depoimentos.
 		'RC_Tag_Google_Place_ID'        => 'class-tag-google-place-id.php',
+		'RC_Tag_Depoimentos'            => 'class-tag-depoimentos.php',
 
 		// Localização.
 		'RC_Tag_Mapa_Embed'             => 'class-tag-mapa-embed.php',
