@@ -71,7 +71,8 @@ class RC_Dynamic_Tags {
 		'RC_Tag_Monitor'                => 'class-tag-monitor.php',
 		'RC_Tag_Perifericos_Lista'      => 'class-tag-perifericos-lista.php',
 		'RC_Tag_Simulador_Link'         => 'class-tag-simulador-link.php',
-		'RC_Tag_Simulador_Produtos_IDs' => 'class-tag-simulador-produtos-ids.php',
+		'RC_Tag_Simulador_Produtos_IDs'   => 'class-tag-simulador-produtos-ids.php',
+		'RC_Tag_Simulador_Produtos_Cards' => 'class-tag-simulador-produtos-cards.php',
 
 		// Produtos.
 		'RC_Tag_Produtos_IDs'           => 'class-tag-produtos-ids.php',
