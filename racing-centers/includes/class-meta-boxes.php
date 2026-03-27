@@ -504,6 +504,13 @@ class RC_Meta_Boxes {
 				<textarea name="rc_sim[<?php echo $idx; ?>][perifericos_lista]" class="rc-textarea rc-sim-field" data-field="perifericos_lista" rows="5" placeholder="Ex: Base de Motor Direct Drive PRS 21 PRO; Volante PRS SR GT PRO; Monitor Gamer 32&quot;"><?php echo esc_textarea( $sim['perifericos_lista'] ?? '' ); ?></textarea>
 				</div>
 
+				<?php /* Produtos em Destaque */ ?>
+				<div class="rc-field-row">
+					<label class="rc-field-label"><?php esc_html_e( 'Produtos em Destaque (IDs WooCommerce)', 'racing-centers' ); ?></label>
+					<input type="text" name="rc_sim[<?php echo $idx; ?>][produtos_ids]" value="<?php echo esc_attr( $sim['produtos_ids'] ?? '' ); ?>" class="rc-text-input rc-sim-field" data-field="produtos_ids" placeholder="Ex: 42, 87, 156" />
+					<p class="rc-field-desc"><?php esc_html_e( 'IDs separados por vírgula dos produtos WooCommerce a exibir em destaque neste simulador.', 'racing-centers' ); ?></p>
+				</div>
+
 				<?php /* Link */ ?>
 				<div class="rc-field-row">
 					<label class="rc-field-label"><?php esc_html_e( 'Link "Ver na Loja"', 'racing-centers' ); ?></label>
@@ -546,6 +553,13 @@ class RC_Meta_Boxes {
 	public function render_localizacao( WP_Post $post ): void {
 		wp_nonce_field( 'rc_localizacao_nonce_action', 'rc_localizacao_nonce' );
 		echo '<div class="rc-meta-box">';
+		$this->text_field(
+			$post->ID,
+			'rc_tracar_rota_url',
+			__( 'URL – Traçar Rota', 'racing-centers' ),
+			__( 'URL do botão "Traçar rota" (ex.: link do Google Maps Directions).', 'racing-centers' ),
+			'url'
+		);
 		$this->textarea_field(
 			$post->ID,
 			'rc_mapa_embed',

@@ -226,6 +226,7 @@ class RC_Save {
 					'pedal_modelo'      => sanitize_text_field( wp_unslash( $sim['pedal_modelo'] ?? '' ) ),
 					'monitor'           => sanitize_text_field( wp_unslash( $sim['monitor'] ?? '' ) ),
 					'perifericos_lista' => sanitize_textarea_field( wp_unslash( $sim['perifericos_lista'] ?? '' ) ),
+					'produtos_ids'      => sanitize_text_field( wp_unslash( $sim['produtos_ids'] ?? '' ) ),
 					'link'              => esc_url_raw( wp_unslash( $sim['link'] ?? '' ) ),
 				);
 			}
@@ -253,6 +254,8 @@ class RC_Save {
 	 * @param int $post_id Post ID.
 	 */
 	private function save_localizacao( int $post_id ): void {
+		$this->save_url( $post_id, 'rc_tracar_rota_url' );
+
 		// Mapa embed is an iframe; we allow safe HTML via wp_kses.
 		if ( isset( $_POST['rc_mapa_embed'] ) ) {
 			$allowed_html = array(

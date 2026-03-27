@@ -87,6 +87,7 @@ class RC_Dynamic_Tags {
 		'RC_Tag_Depoimentos'            => 'class-tag-depoimentos.php',
 
 		// Localização.
+		'RC_Tag_Tracar_Rota'            => 'class-tag-tracar-rota.php',
 		'RC_Tag_Mapa_Embed'             => 'class-tag-mapa-embed.php',
 	);
 
