@@ -160,3 +160,29 @@ final class Racing_Centers {
 
 // Kick off the plugin after all plugins are loaded so CPT/meta is available.
 add_action( 'plugins_loaded', array( 'Racing_Centers', 'get_instance' ) );
+
+// ---------------------------------------------------------------------------
+// Auto-updater via GitHub releases (plugin-update-checker).
+//
+// HOW TO RELEASE AN UPDATE:
+//   1. Bump `Version:` in this header AND the Racing_Centers::VERSION constant.
+//   2. Commit and push all changes.
+//   3. Push a Git tag that matches the version, e.g.:
+//          git tag v2.2.0 && git push origin v2.2.0
+//   4. The GitHub Actions workflow (.github/workflows/release.yml) will
+//      automatically build and attach a proper plugin zip to the release.
+//   5. WordPress will detect the new version and offer the update in the
+//      Plugins › Updates screen — just click "Update Now".
+// ---------------------------------------------------------------------------
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor/autoload.php';
+
+	$rc_updater = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+		'https://github.com/YOUR-USERNAME/racing-center-plugin', // ← altere para sua URL do GitHub
+		__FILE__,
+		'racing-centers'
+	);
+
+	// Usa o zip anexado ao GitHub Release (gerado pelo Actions).
+	$rc_updater->getVcsApi()->enableReleaseAssets();
+}

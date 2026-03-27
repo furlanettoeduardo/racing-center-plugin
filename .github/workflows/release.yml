@@ -1,0 +1,54 @@
+name: Build & Release Plugin
+
+# Dispara quando uma tag no formato v* é criada (ex: v2.2.0)
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Build zip and publish GitHub Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # necessário para criar o Release e fazer upload do asset
+
+    steps:
+      # 1. Baixa o código
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Configura o PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+
+      # 3. Instala dependências de produção (gera vendor/)
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader
+        working-directory: racing-centers
+
+      # 4. Cria o zip com a estrutura correta para o WordPress:
+      #    racing-centers.zip
+      #    └── racing-centers/
+      #        ├── racing-centers.php
+      #        ├── vendor/
+      #        ├── includes/
+      #        └── assets/
+      - name: Build plugin zip
+        run: |
+          zip -r ../racing-centers.zip . \
+            --exclude="*.git*" \
+            --exclude="composer.json" \
+            --exclude="composer.lock"
+        working-directory: racing-centers
+
+      # 5. Cria o GitHub Release e anexa o zip
+      - name: Create GitHub Release and upload asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: racing-centers.zip
+          generate_release_notes: true   # gera changelog automático a partir dos commits

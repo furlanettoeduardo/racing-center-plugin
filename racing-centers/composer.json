@@ -1,0 +1,16 @@
+{
+    "name": "racing-centers/racing-centers",
+    "description": "Racing Centers WordPress Plugin",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=8.2",
+        "yahnis-elsts/plugin-update-checker": "^5.3"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
+    },
+    "autoload": {
+        "classmap": ["includes/"]
+    }
+}

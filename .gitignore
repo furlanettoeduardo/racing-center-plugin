@@ -1,1 +1,5 @@
 racing-centers.zip
+
+# Dependências Composer — geradas localmente e pelo GitHub Actions na release.
+# NÃO commitar vendor/ para manter o repositório limpo.
+racing-centers/vendor/
