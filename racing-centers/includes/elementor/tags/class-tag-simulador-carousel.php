@@ -59,8 +59,8 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			<?php /* ── Section header ──────────────────────────────────── */ ?>
 			<div class="rc-sims__head">
 				<div class="rc-sims__head-left">
-					<p class="rc-sims__eyebrow">&#8212; SIMULADORES</p>
-					<h2 class="rc-sims__section-title">O QUE VOCÊ VAI<br>ENCONTRAR:</h2>
+					<p class="rc-sims__eyebrow"><span class="rc-sims__eyebrow-line"></span>SIMULADORES</p>
+					<h2 class="rc-sims__section-title">O QUE VOCÊ VAI ENCONTRAR:</h2>
 				</div>
 				<?php if ( $has_many ) : ?>
 				<div class="rc-sims__nav" aria-label="<?php esc_attr_e( 'Navegação dos simuladores', 'racing-centers' ); ?>">
@@ -175,8 +175,10 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 
 		<?php /* ── Scoped styles ─────────────────────────────────────── */ ?>
 		<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@400;600;700;900&display=swap');
+
 		#<?php echo esc_attr( $uid ); ?> {
-			--rc-sim-accent:   #c0392b;
+			--rc-sim-accent:   #EC1313;
 			--rc-sim-txt:      #1a1a1a;
 			--rc-sim-muted:    #666;
 			--rc-sim-border:   #e0e0e0;
@@ -190,21 +192,37 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			justify-content: space-between;
 			margin-bottom: 28px;
 		}
+		#<?php echo esc_attr( $uid ); ?> .rc-sims__head-left {
+			flex: 1;
+		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__eyebrow {
-			font-size: 12px;
-			font-weight: 700;
-			letter-spacing: .12em;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-family: 'Oswald', sans-serif;
+			font-size: 14px;
+			font-weight: 400;
+			letter-spacing: 0.35em;
 			text-transform: uppercase;
 			color: var(--rc-sim-accent);
-			margin: 0 0 6px;
+			margin: 0 0 8px;
+		}
+		#<?php echo esc_attr( $uid ); ?> .rc-sims__eyebrow-line {
+			display: block;
+			width: 40px;
+			height: 2px;
+			background: currentColor;
+			flex-shrink: 0;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__section-title {
+			font-family: 'Oswald', sans-serif;
 			font-size: clamp(24px, 3vw, 36px);
 			font-weight: 900;
 			text-transform: uppercase;
 			color: var(--rc-sim-txt);
 			line-height: 1.1;
 			margin: 0;
+			white-space: nowrap;
 		}
 
 		/* Arrows */
@@ -212,6 +230,8 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			display: flex;
 			gap: 8px;
 			padding-bottom: 4px;
+			flex-shrink: 0;
+			margin-left: 16px;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__arrow {
 			width: 38px;
@@ -235,11 +255,25 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		}
 
 		/* Slides */
+		@keyframes rc-sims-from-right {
+			from { opacity: 0; transform: translateX(32px); }
+			to   { opacity: 1; transform: translateX(0); }
+		}
+		@keyframes rc-sims-from-left {
+			from { opacity: 0; transform: translateX(-32px); }
+			to   { opacity: 1; transform: translateX(0); }
+		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__slide {
 			display: none;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__slide.is-active {
 			display: block;
+		}
+		#<?php echo esc_attr( $uid ); ?> .rc-sims__slide.is-active.slide-from-right {
+			animation: rc-sims-from-right .35s ease forwards;
+		}
+		#<?php echo esc_attr( $uid ); ?> .rc-sims__slide.is-active.slide-from-left {
+			animation: rc-sims-from-left .35s ease forwards;
 		}
 
 		/* Card layout */
@@ -277,8 +311,9 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			left: 16px;
 			background: var(--rc-sim-accent);
 			color: #fff;
+			font-family: 'Oswald', sans-serif;
 			font-size: 10px;
-			font-weight: 800;
+			font-weight: 600;
 			letter-spacing: .1em;
 			text-transform: uppercase;
 			padding: 4px 10px;
@@ -288,6 +323,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 
 		/* Content column */
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__nome {
+			font-family: 'Oswald', sans-serif;
 			font-size: clamp(18px, 2vw, 24px);
 			font-weight: 900;
 			text-transform: uppercase;
@@ -296,12 +332,14 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			line-height: 1.2;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__subtitulo {
+			font-family: 'Oswald', sans-serif;
 			font-size: 15px;
 			color: var(--rc-sim-accent);
 			font-weight: 600;
 			margin: 0 0 14px;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__descricao {
+			font-family: 'Inter', sans-serif;
 			font-size: 14px;
 			color: var(--rc-sim-muted);
 			line-height: 1.65;
@@ -324,6 +362,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			gap: 3px;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__spec-label {
+			font-family: 'Inter', sans-serif;
 			font-size: 10px;
 			font-weight: 600;
 			color: var(--rc-sim-muted);
@@ -331,6 +370,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			letter-spacing: .06em;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__spec-value {
+			font-family: 'Inter', sans-serif;
 			font-size: 13px;
 			font-weight: 700;
 			color: var(--rc-sim-txt);
@@ -338,6 +378,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 
 		/* Periféricos */
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__perf-heading {
+			font-family: 'Inter', sans-serif;
 			font-size: 11px;
 			font-weight: 700;
 			letter-spacing: .1em;
@@ -346,22 +387,23 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			margin: 0 0 10px;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__perf-list {
-			columns: 2;
-			column-gap: 20px;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 0 20px;
 			list-style: none;
 			padding: 0;
 			margin: 0 0 22px;
 		}
 		@media (max-width: 480px) {
 			#<?php echo esc_attr( $uid ); ?> .rc-sims__perf-list {
-				columns: 1;
+				grid-template-columns: 1fr;
 			}
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__perf-list li {
+			font-family: 'Inter', sans-serif;
 			font-size: 13px;
 			color: var(--rc-sim-txt);
 			padding: 3px 0 3px 16px;
-			break-inside: avoid;
 			position: relative;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__perf-list li::before {
@@ -384,6 +426,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			gap: 8px;
 			background: var(--rc-sim-accent);
 			color: #fff;
+			font-family: 'Inter', sans-serif;
 			font-size: 13px;
 			font-weight: 700;
 			text-transform: uppercase;
@@ -394,7 +437,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			transition: background .2s, transform .15s;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__cta:hover {
-			background: #a93226;
+			background: #c51010;
 			transform: translateY(-1px);
 			color: #fff;
 		}
@@ -442,19 +485,26 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 
 				if (slides.length <= 1) return;
 
-				function goTo(n) {
-					slides[current].classList.remove('is-active');
+				function goTo(n, dir) {
+					slides[current].classList.remove('is-active', 'slide-from-right', 'slide-from-left');
 					if (dots[current]) dots[current].classList.remove('is-active');
 					current = ((n % slides.length) + slides.length) % slides.length;
-					slides[current].classList.add('is-active');
+					var s = slides[current];
+					s.classList.remove('slide-from-right', 'slide-from-left');
+					// Force reflow so the animation retriggers when same direction is used twice.
+					void s.offsetWidth;
+					s.classList.add(dir === 'prev' ? 'slide-from-left' : 'slide-from-right');
+					s.classList.add('is-active');
 					if (dots[current]) dots[current].classList.add('is-active');
 				}
 
-				if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
-				if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
+				if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1, 'prev'); });
+				if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1, 'next'); });
 
 				dots.forEach(function (dot, i) {
-					dot.addEventListener('click', function () { goTo(i); });
+					dot.addEventListener('click', function () {
+						goTo(i, i >= current ? 'next' : 'prev');
+					});
 				});
 			}
 
