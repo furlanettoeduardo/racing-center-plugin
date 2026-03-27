@@ -3,7 +3,7 @@
  * Plugin Name:       Racing Centers
  * Plugin URI:        https://example.com/racing-centers
  * Description:       A data-driven system for managing Racing Centers — CPT, meta boxes, admin UI, and Elementor Dynamic Tags.
- * Version:           2.3.3
+ * Version:           2.3.4
  * Requires at least: 6.0
  * Requires PHP:      8.2
  * Author:            Eduardo Furlanetto Nunes
@@ -35,7 +35,7 @@ final class Racing_Centers {
 	 *
 	 * @var string
 	 */
-	const VERSION = '2.3.3';
+	const VERSION = '2.3.4';
 
 	/**
 	 * Absolute path to the plugin root directory (no trailing slash).
@@ -130,8 +130,32 @@ final class Racing_Centers {
 			new RC_Save();
 		}
 
+		// Frontend stylesheet — enqueued on racing_center single pages.
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
+
 		// Elementor Dynamic Tags — hook fires only when Elementor is active.
 		add_action( 'elementor/dynamic_tags/register', array( $this, 'register_elementor_tags' ) );
+	}
+
+	// -------------------------------------------------------------------------
+	// Frontend assets
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Enqueue frontend stylesheet on single Racing Center pages.
+	 *
+	 * Hooked to: wp_enqueue_scripts
+	 */
+	public function enqueue_frontend_assets(): void {
+		if ( ! is_singular( 'racing_center' ) ) {
+			return;
+		}
+		wp_enqueue_style(
+			'rc-frontend',
+			$this->plugin_url . '/assets/css/frontend.css',
+			array(),
+			self::VERSION
+		);
 	}
 
 	// -------------------------------------------------------------------------
