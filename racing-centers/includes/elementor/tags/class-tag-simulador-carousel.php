@@ -203,7 +203,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			align-items: center;
 			gap: 10px;
 			font-family: 'Oswald', sans-serif;
-			font-size: 14px;
+			font-size: 16px;
 			font-weight: 400;
 			letter-spacing: 0.35em;
 			text-transform: uppercase;
@@ -315,7 +315,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			background: var(--rc-sim-accent);
 			color: #fff;
 			font-family: 'Oswald', sans-serif;
-			font-size: 10px;
+			font-size: 16px;
 			font-weight: 600;
 			letter-spacing: .1em;
 			text-transform: uppercase;
@@ -327,7 +327,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		/* Content column */
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__nome {
 			font-family: 'Oswald', sans-serif;
-			font-size: clamp(18px, 2vw, 24px);
+			font-size: clamp(20px, 2vw, 24px);
 			font-weight: 900;
 			text-transform: uppercase;
 			color: var(--rc-sim-txt);
@@ -336,14 +336,14 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__subtitulo {
 			font-family: 'Oswald', sans-serif;
-			font-size: 15px;
+			font-size: 17px;
 			color: var(--rc-sim-accent);
 			font-weight: 600;
 			margin: 0 0 14px;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__descricao {
 			font-family: 'Inter', sans-serif;
-			font-size: 14px;
+			font-size: 16px;
 			color: var(--rc-sim-muted);
 			line-height: 1.65;
 			margin: 0 0 20px;
@@ -366,7 +366,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__spec-label {
 			font-family: 'Inter', sans-serif;
-			font-size: 10px;
+			font-size: 14px;
 			font-weight: 600;
 			color: var(--rc-sim-muted);
 			text-transform: uppercase;
@@ -374,7 +374,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__spec-value {
 			font-family: 'Inter', sans-serif;
-			font-size: 13px;
+			font-size: 15px;
 			font-weight: 700;
 			color: var(--rc-sim-txt);
 		}
@@ -382,7 +382,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		/* Periféricos */
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__perf-heading {
 			font-family: 'Inter', sans-serif;
-			font-size: 11px;
+			font-size: 16px;
 			font-weight: 700;
 			letter-spacing: .1em;
 			text-transform: uppercase;
@@ -404,7 +404,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__perf-list li {
 			font-family: 'Inter', sans-serif;
-			font-size: 13px;
+			font-size: 16px;
 			color: var(--rc-sim-txt);
 			padding: 3px 0 3px 16px;
 			position: relative;
@@ -429,8 +429,8 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			gap: 8px;
 			background: var(--rc-sim-accent);
 			color: #fff;
-			font-family: 'Inter', sans-serif;
-			font-size: 13px;
+			font-family: 'Oswald', sans-serif;
+			font-size: 16px;
 			font-weight: 700;
 			text-transform: uppercase;
 			letter-spacing: .06em;

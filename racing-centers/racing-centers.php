@@ -3,7 +3,7 @@
  * Plugin Name:       Racing Centers
  * Plugin URI:        https://example.com/racing-centers
  * Description:       A data-driven system for managing Racing Centers — CPT, meta boxes, admin UI, and Elementor Dynamic Tags.
- * Version:           2.3.4
+ * Version:           2.3.5
  * Requires at least: 6.0
  * Requires PHP:      8.2
  * Author:            Eduardo Furlanetto Nunes
@@ -35,7 +35,7 @@ final class Racing_Centers {
 	 *
 	 * @var string
 	 */
-	const VERSION = '2.3.4';
+	const VERSION = '2.3.5';
 
 	/**
 	 * Absolute path to the plugin root directory (no trailing slash).

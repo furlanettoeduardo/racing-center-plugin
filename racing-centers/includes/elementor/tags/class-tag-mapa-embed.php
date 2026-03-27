@@ -56,6 +56,7 @@ class RC_Tag_Mapa_Embed extends RC_Tag_Base {
 			return;
 		}
 		// Second-pass sanitization — defence in depth.
-		echo wp_kses( $raw, self::ALLOWED_HTML );
+		$iframe = wp_kses( $raw, self::ALLOWED_HTML );
+		echo '<div style="border:1px solid #cfcfcf;border-radius:10px;overflow:hidden;line-height:0;">' . $iframe . '</div>';
 	}
 }
