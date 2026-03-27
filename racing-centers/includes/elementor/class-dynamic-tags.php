@@ -76,6 +76,9 @@ class RC_Dynamic_Tags {
 		// Produtos.
 		'RC_Tag_Produtos_IDs'           => 'class-tag-produtos-ids.php',
 
+		// Galeria.
+		'RC_Tag_Galeria'                => 'class-tag-galeria.php',
+
 		// Depoimentos.
 		'RC_Tag_Google_Place_ID'        => 'class-tag-google-place-id.php',
 
