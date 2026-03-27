@@ -116,14 +116,18 @@ class RC_Tag_Galeria extends RC_Tag_Base {
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-gallery-main {
 			width: 100%;
-			background: #111;
+			aspect-ratio: 16 / 9;
+			overflow: hidden;
+			background: #000;
 			line-height: 0;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-gallery-main__img {
 			display: block;
 			width: 100%;
-			max-height: 520px;
-			object-fit: contain;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			transition: opacity .25s ease;
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-gallery-strip {
 			display: flex;
@@ -208,8 +212,12 @@ class RC_Tag_Galeria extends RC_Tag_Base {
 				// ── Thumbnail click: swap main image ────────────────────
 				thumbs.forEach(function (btn) {
 					btn.addEventListener('click', function () {
-						mainImg.src = btn.dataset.full;
-						mainImg.alt = btn.dataset.alt;
+						mainImg.style.opacity = '0';
+						setTimeout(function () {
+							mainImg.src = btn.dataset.full;
+							mainImg.alt = btn.dataset.alt;
+							mainImg.style.opacity = '1';
+						}, 150);
 						thumbs.forEach(function (b) { b.classList.remove('is-active'); });
 						btn.classList.add('is-active');
 						scrollThumbIntoView(btn);
