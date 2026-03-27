@@ -184,7 +184,7 @@ class RC_Save {
 					'volante_modelo'    => sanitize_text_field( wp_unslash( $sim['volante_modelo'] ?? '' ) ),
 					'pedal_modelo'      => sanitize_text_field( wp_unslash( $sim['pedal_modelo'] ?? '' ) ),
 					'monitor'           => sanitize_text_field( wp_unslash( $sim['monitor'] ?? '' ) ),
-				'perifericos_lista' => implode( "\n", array_filter( array_map( 'sanitize_text_field', preg_split( '/\r\n|\r|\n/', wp_unslash( $sim['perifericos_lista'] ?? '' ) ) ) ) ),
+				'perifericos_lista' => sanitize_textarea_field( wp_unslash( $sim['perifericos_lista'] ?? '' ) ),
 					'link'              => esc_url_raw( wp_unslash( $sim['link'] ?? '' ) ),
 				);
 			}

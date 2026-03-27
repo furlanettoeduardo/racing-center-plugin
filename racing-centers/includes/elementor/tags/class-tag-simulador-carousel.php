@@ -84,7 +84,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 					$volante    = sanitize_text_field( $sim['volante_modelo'] ?? '' );
 					$pedal      = sanitize_text_field( $sim['pedal_modelo'] ?? '' );
 					$monitor    = sanitize_text_field( $sim['monitor'] ?? '' );
-					$perifericos = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', $sim['perifericos_lista'] ?? '' ) ) );
+					$perifericos = array_filter( array_map( 'trim', explode( ';', $sim['perifericos_lista'] ?? '' ) ) );
 					$link       = esc_url( $sim['link'] ?? '' );
 
 					$specs = array_filter( array(

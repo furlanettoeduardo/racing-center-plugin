@@ -496,8 +496,8 @@ class RC_Meta_Boxes {
 
 				<?php /* Equipamentos e Periféricos */ ?>
 				<div class="rc-field-row">
-					<label class="rc-field-label"><?php esc_html_e( 'Equipamentos e Periféricos (um por linha)', 'racing-centers' ); ?></label>
-					<textarea name="rc_sim[<?php echo $idx; ?>][perifericos_lista]" class="rc-textarea rc-sim-field" data-field="perifericos_lista" rows="5"><?php echo esc_textarea( $sim['perifericos_lista'] ?? '' ); ?></textarea>
+				<label class="rc-field-label"><?php esc_html_e( 'Equipamentos e Periféricos (separados por ;)', 'racing-centers' ); ?></label>
+				<textarea name="rc_sim[<?php echo $idx; ?>][perifericos_lista]" class="rc-textarea rc-sim-field" data-field="perifericos_lista" rows="5" placeholder="Ex: Base de Motor Direct Drive PRS 21 PRO; Volante PRS SR GT PRO; Monitor Gamer 32&quot;"><?php echo esc_textarea( $sim['perifericos_lista'] ?? '' ); ?></textarea>
 				</div>
 
 				<?php /* Link */ ?>
