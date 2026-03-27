@@ -216,4 +216,39 @@
 		$( this ).closest( '.rc-sim-item' ).find( '.rc-sim-item__title' ).text( val );
 	} );
 
+	// =========================================================================
+	// 5. Serialize simulator data on form submit (WAF-safe base64 encoding)
+	// =========================================================================
+
+	// Some WAF/security plugins (e.g. Wordfence, ModSecurity) flag POST fields
+	// containing characters like | or " as potential injection attacks and strip
+	// the entire rc_sim[] array. Encoding the data as base64 avoids this.
+
+	$( '#post' ).on( 'submit.rc-simulador', function () {
+		var sims = [];
+
+		$( '#rc-simuladores-list .rc-sim-item' ).each( function () {
+			var sim = {};
+			$( this ).find( 'input[name], textarea[name]' ).each( function () {
+				var attrName = $( this ).attr( 'name' ) || '';
+				var match    = attrName.match( /\[([^\[\]]+)\]$/ );
+				if ( match ) {
+					sim[ match[ 1 ] ] = $( this ).val() || '';
+				}
+			} );
+			sims.push( sim );
+		} );
+
+		try {
+			// btoa() only handles Latin-1; convert Unicode → UTF-8 bytes first.
+			var encoded = btoa( unescape( encodeURIComponent( JSON.stringify( sims ) ) ) );
+			$( '#rc-simuladores-data' ).val( encoded );
+		} catch ( e ) {
+			// Encoding failed — leave field empty; PHP falls back to rc_sim[].
+		}
+
+		// Disable individual fields so they are not sent in the POST body.
+		$( '#rc-simuladores-list' ).find( '[name]' ).prop( 'disabled', true );
+	} );
+
 }( jQuery ) );

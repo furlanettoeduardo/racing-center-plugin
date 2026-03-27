@@ -216,7 +216,7 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__section-title {
 			font-family: 'Oswald', sans-serif;
-			font-size: clamp(24px, 3vw, 36px);
+			font-size: clamp(40px, 3vw, 36px);
 			font-weight: 900;
 			text-transform: uppercase;
 			color: var(--rc-sim-txt);

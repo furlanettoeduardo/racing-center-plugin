@@ -402,6 +402,7 @@ class RC_Meta_Boxes {
 			<?php $this->render_simulador_item( array(), '__IDX__' ); ?>
 		</script>
 		<input type="hidden" id="rc-sim-next-index" value="<?php echo esc_attr( $count ); ?>" />
+		<input type="hidden" name="rc_simuladores_data" id="rc-simuladores-data" value="" />
 		<?php
 	}
 

@@ -168,9 +168,34 @@ class RC_Save {
 		$this->save_text( $post_id, 'rc_produtos_ids' );
 
 		// Multi-simulator repeater — store as JSON.
-		if ( isset( $_POST['rc_sim'] ) && is_array( $_POST['rc_sim'] ) ) {
+		//
+		// The JS serializes all sim data as base64-encoded JSON into a single
+		// hidden field (rc_simuladores_data) to avoid WAF false-positives on
+		// characters like | and " that appear in equipment names.
+		$rc_sim_source = null;
+
+		if ( ! empty( $_POST['rc_simuladores_data'] ) ) {
+			// Strip any non-base64 characters before decoding.
+			$b64 = preg_replace( '/[^A-Za-z0-9+\/=]/', '', wp_unslash( $_POST['rc_simuladores_data'] ) );
+			if ( $b64 ) {
+				$json_str = base64_decode( $b64 );
+				if ( false !== $json_str ) {
+					$decoded = json_decode( $json_str, true );
+					if ( is_array( $decoded ) ) {
+						$rc_sim_source = $decoded;
+					}
+				}
+			}
+		}
+
+		// Fallback: direct rc_sim[] array (for environments without the JS layer).
+		if ( null === $rc_sim_source && isset( $_POST['rc_sim'] ) && is_array( $_POST['rc_sim'] ) ) {
+			$rc_sim_source = array_values( $_POST['rc_sim'] );
+		}
+
+		if ( null !== $rc_sim_source ) {
 			$clean = array();
-			foreach ( array_values( $_POST['rc_sim'] ) as $sim ) {
+			foreach ( $rc_sim_source as $sim ) {
 				if ( ! is_array( $sim ) ) {
 					continue;
 				}
@@ -184,7 +209,7 @@ class RC_Save {
 					'volante_modelo'    => sanitize_text_field( wp_unslash( $sim['volante_modelo'] ?? '' ) ),
 					'pedal_modelo'      => sanitize_text_field( wp_unslash( $sim['pedal_modelo'] ?? '' ) ),
 					'monitor'           => sanitize_text_field( wp_unslash( $sim['monitor'] ?? '' ) ),
-				'perifericos_lista' => sanitize_textarea_field( wp_unslash( $sim['perifericos_lista'] ?? '' ) ),
+					'perifericos_lista' => sanitize_textarea_field( wp_unslash( $sim['perifericos_lista'] ?? '' ) ),
 					'link'              => esc_url_raw( wp_unslash( $sim['link'] ?? '' ) ),
 				);
 			}
