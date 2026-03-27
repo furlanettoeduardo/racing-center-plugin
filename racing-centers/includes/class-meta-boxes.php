@@ -385,6 +385,11 @@ class RC_Meta_Boxes {
 				$sims = $decoded;
 			}
 		}
+		// DEBUG — remove after diagnosing.
+		error_log( '[RC_Read] post_id=' . $post_id . ' | raw len=' . strlen( $raw ) . ' | sims count=' . count( $sims ) . ' | json_error=' . json_last_error_msg() ); // phpcs:ignore
+		if ( $raw ) {
+			error_log( '[RC_Read] raw (first 300): ' . substr( $raw, 0, 300 ) ); // phpcs:ignore
+		}
 		$count = count( $sims );
 		?>
 		<div id="rc-simuladores-list">
