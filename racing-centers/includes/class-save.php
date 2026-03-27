@@ -229,7 +229,10 @@ class RC_Save {
 					'link'              => esc_url_raw( wp_unslash( $sim['link'] ?? '' ) ),
 				);
 			}
-			update_post_meta( $post_id, 'rc_simuladores', wp_json_encode( $clean ) );
+			$json_to_save = wp_json_encode( $clean );
+			error_log( '[RC_Save] saving ' . count( $clean ) . ' simulators. JSON (first 300): ' . substr( $json_to_save, 0, 300 ) ); // phpcs:ignore
+			$result = update_post_meta( $post_id, 'rc_simuladores', $json_to_save );
+			error_log( '[RC_Save] update_post_meta result: ' . ( false === $result ? 'FALSE (insert ok or no change)' : 'updated (new meta_id=' . $result . ')' ) ); // phpcs:ignore
 		}
 	}
 
