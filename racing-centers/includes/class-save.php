@@ -174,16 +174,27 @@ class RC_Save {
 		// characters like | and " that appear in equipment names.
 		$rc_sim_source = null;
 
+		// DEBUG — log raw POST keys received. Remove after diagnosing.
+		$debug_has_data    = isset( $_POST['rc_simuladores_data'] ) ? 'YES (len=' . strlen( $_POST['rc_simuladores_data'] ) . ')' : 'NO'; // phpcs:ignore
+		$debug_has_rc_sim  = isset( $_POST['rc_sim'] ) ? 'YES' : 'NO'; // phpcs:ignore
+		error_log( '[RC_Save] post_id=' . $post_id . ' | rc_simuladores_data=' . $debug_has_data . ' | rc_sim[]=' . $debug_has_rc_sim ); // phpcs:ignore
+
 		if ( ! empty( $_POST['rc_simuladores_data'] ) ) {
 			// Strip any non-base64 characters before decoding.
 			$b64 = preg_replace( '/[^A-Za-z0-9+\/=]/', '', wp_unslash( $_POST['rc_simuladores_data'] ) );
+			error_log( '[RC_Save] b64 (first 100 chars): ' . substr( $b64, 0, 100 ) ); // phpcs:ignore
 			if ( $b64 ) {
 				$json_str = base64_decode( $b64 );
 				if ( false !== $json_str ) {
 					$decoded = json_decode( $json_str, true );
 					if ( is_array( $decoded ) ) {
 						$rc_sim_source = $decoded;
+						error_log( '[RC_Save] decoded ' . count( $decoded ) . ' simulators from base64' ); // phpcs:ignore
+					} else {
+						error_log( '[RC_Save] json_decode failed. json_str (first 200): ' . substr( $json_str, 0, 200 ) ); // phpcs:ignore
 					}
+				} else {
+					error_log( '[RC_Save] base64_decode returned false' ); // phpcs:ignore
 				}
 			}
 		}
@@ -191,6 +202,11 @@ class RC_Save {
 		// Fallback: direct rc_sim[] array (for environments without the JS layer).
 		if ( null === $rc_sim_source && isset( $_POST['rc_sim'] ) && is_array( $_POST['rc_sim'] ) ) {
 			$rc_sim_source = array_values( $_POST['rc_sim'] );
+			error_log( '[RC_Save] using fallback rc_sim[] — count=' . count( $rc_sim_source ) ); // phpcs:ignore
+		}
+
+		if ( null === $rc_sim_source ) {
+			error_log( '[RC_Save] rc_sim_source is NULL — nothing will be saved' ); // phpcs:ignore
 		}
 
 		if ( null !== $rc_sim_source ) {
