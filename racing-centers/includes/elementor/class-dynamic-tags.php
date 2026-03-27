@@ -89,6 +89,7 @@ class RC_Dynamic_Tags {
 
 		// Localização.
 		'RC_Tag_Tracar_Rota'            => 'class-tag-tracar-rota.php',
+		'RC_Tag_Tracar_Rota_Botao'      => 'class-tag-tracar-rota-botao.php',
 		'RC_Tag_Mapa_Embed'             => 'class-tag-mapa-embed.php',
 	);
 

@@ -4,6 +4,41 @@
  */
 
 /* ==========================================================================
+   Botão Traçar Rota
+   ========================================================================== */
+
+a.rc-tracar-rota-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background: #EC1313;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 14px 28px;
+	border-radius: 6px;
+	border: none;
+	line-height: 1;
+	transition: background 0.2s ease, transform 0.15s ease;
+}
+
+a.rc-tracar-rota-btn:hover {
+	background: #c90f0f;
+	transform: translateY(-1px);
+	text-decoration: none;
+	color: #ffffff;
+}
+
+.rc-tracar-rota-btn__icon {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+
+/* ==========================================================================
    Produto Cards (Simulador Produtos em Destaque)
    ========================================================================== */
 
