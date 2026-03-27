@@ -178,7 +178,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 
 	$rc_updater = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-		'https://github.com/YOUR-USERNAME/racing-center-plugin', // ← altere para sua URL do GitHub
+		'https://github.com/furlanettoeduardo/racing-center-plugin', // ← altere para sua URL do GitHub
 		__FILE__,
 		'racing-centers'
 	);
