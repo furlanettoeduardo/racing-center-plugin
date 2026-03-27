@@ -110,9 +110,21 @@ class RC_Tag_Galeria extends RC_Tag_Base {
 		<?php /* ── Scoped styles ─────────────────────────────────────── */ ?>
 		<style>
 		#<?php echo esc_attr( $uid ); ?> {
-			--rc-gal-thumb-size: 80px;
-			--rc-gal-gap:        6px;
+			--rc-gal-thumb-size: 60px;
+			--rc-gal-gap:        5px;
 			--rc-gal-accent:     #e30000;
+		}
+		@media (min-width: 480px) {
+			#<?php echo esc_attr( $uid ); ?> {
+				--rc-gal-thumb-size: 72px;
+				--rc-gal-gap:        6px;
+			}
+		}
+		@media (min-width: 768px) {
+			#<?php echo esc_attr( $uid ); ?> {
+				--rc-gal-thumb-size: 90px;
+				--rc-gal-gap:        8px;
+			}
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-gallery-main {
 			width: 100%;
@@ -192,9 +204,18 @@ class RC_Tag_Galeria extends RC_Tag_Base {
 		<script>
 		(function () {
 			var uid      = <?php echo wp_json_encode( $uid ); ?>;
-			var thumbW   = 80;
-			var gap      = 6;
 			var offset   = 0;
+
+			function getThumbW(wrap) {
+				var first = wrap.querySelector('.rc-gallery-strip__thumb');
+				return first ? first.offsetWidth : 80;
+			}
+
+			function getGap(track) {
+				if (!track) return 6;
+				var style = window.getComputedStyle(track);
+				return parseFloat(style.columnGap || style.gap) || 6;
+			}
 
 			function init() {
 				var wrap     = document.getElementById(uid);
@@ -226,30 +247,32 @@ class RC_Tag_Galeria extends RC_Tag_Base {
 
 				// ── Arrow navigation ────────────────────────────────────
 				if (btnPrev && btnNext && track && viewport) {
-					var step = thumbW + gap;
-
 					btnPrev.addEventListener('click', function () {
-						offset = Math.max(0, offset - step * 3);
+						var step = (getThumbW(wrap) + getGap(track)) * 3;
+						offset = Math.max(0, offset - step);
 						track.style.transform = 'translateX(-' + offset + 'px)';
 					});
 
 					btnNext.addEventListener('click', function () {
 						var maxOffset = track.scrollWidth - viewport.offsetWidth;
 						if (maxOffset <= 0) return;
-						offset = Math.min(maxOffset, offset + step * 3);
+						var step = (getThumbW(wrap) + getGap(track)) * 3;
+						offset = Math.min(maxOffset, offset + step);
 						track.style.transform = 'translateX(-' + offset + 'px)';
 					});
 				}
 
 				function scrollThumbIntoView(btn) {
 					if (!track || !viewport) return;
+					var tw     = getThumbW(wrap);
+					var gap    = getGap(track);
 					var btnLeft  = btn.offsetLeft;
 					var vpWidth  = viewport.offsetWidth;
 					var maxOff   = track.scrollWidth - vpWidth;
 					if (btnLeft < offset) {
 						offset = Math.max(0, btnLeft - gap);
-					} else if (btnLeft + thumbW > offset + vpWidth) {
-						offset = Math.min(maxOff, btnLeft + thumbW - vpWidth + gap);
+					} else if (btnLeft + tw > offset + vpWidth) {
+						offset = Math.min(maxOff, btnLeft + tw - vpWidth + gap);
 					}
 					track.style.transform = 'translateX(-' + offset + 'px)';
 				}
