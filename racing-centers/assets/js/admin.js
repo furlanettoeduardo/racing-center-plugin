@@ -165,4 +165,55 @@
 		rcSyncGalleryInput();
 	} );
 
+	// =========================================================================
+	// 4. Simulator Repeater
+	// =========================================================================
+
+	var rcNextSimIndex = parseInt( $( '#rc-sim-next-index' ).val(), 10 ) || 0;
+
+	/**
+	 * Add a new simulator item by cloning the JS template.
+	 */
+	function rcAddSimulator() {
+		var template = $( '#rc-sim-template' ).html();
+		if ( ! template ) { return; }
+
+		var html  = template.replace( /__IDX__/g, rcNextSimIndex );
+		rcNextSimIndex++;
+		$( '#rc-sim-next-index' ).val( rcNextSimIndex );
+
+		var $item = $( html );
+		$( '#rc-simuladores-list' ).append( $item );
+		// Start collapsed, then slide open.
+		$item.find( '.rc-sim-item__body' ).hide().slideDown( 200 );
+	}
+
+	// Add button.
+	$( document ).on( 'click', '#rc-simulador-add', function ( e ) {
+		e.preventDefault();
+		rcAddSimulator();
+	} );
+
+	// Toggle collapse / expand.
+	$( document ).on( 'click', '.rc-sim-toggle', function () {
+		var $body = $( this ).closest( '.rc-sim-item' ).find( '.rc-sim-item__body' );
+		$body.slideToggle( 200 );
+		$( this ).text( $body.is( ':visible' ) ? '▼' : '▶' );
+	} );
+
+	// Remove item (with confirmation).
+	$( document ).on( 'click', '.rc-sim-remove', function () {
+		// eslint-disable-next-line no-alert
+		if ( ! window.confirm( 'Remover este simulador?' ) ) { return; }
+		$( this ).closest( '.rc-sim-item' ).slideUp( 200, function () {
+			$( this ).remove();
+		} );
+	} );
+
+	// Keep accordion title in sync with the Título field.
+	$( document ).on( 'input', '.rc-sim-title-field', function () {
+		var val = $( this ).val().trim() || 'Novo Simulador';
+		$( this ).closest( '.rc-sim-item' ).find( '.rc-sim-item__title' ).text( val );
+	} );
+
 }( jQuery ) );

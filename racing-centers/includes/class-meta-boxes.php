@@ -363,28 +363,152 @@ class RC_Meta_Boxes {
 
 		<!-- ===== SIMULADOR ===== -->
 		<div id="rc-section-simulador" class="rc-conditional-section<?php echo 'simulador' === $tipo ? '' : ' rc-hidden'; ?>">
-			<h4 class="rc-section-heading"><?php esc_html_e( 'Simulador', 'racing-centers' ); ?></h4>
-			<?php
-			$this->media_field( $post->ID, 'rc_simulador_imagem', __( 'Imagem do Simulador', 'racing-centers' ) );
-			$this->text_field( $post->ID, 'rc_simulador_titulo_linha', __( 'Título (linha superior)', 'racing-centers' ) );
-			$this->text_field( $post->ID, 'rc_simulador_nome', __( 'Nome do Simulador', 'racing-centers' ) );
-			$this->text_field( $post->ID, 'rc_simulador_modelo', __( 'Modelo', 'racing-centers' ) );
-			$this->textarea_field( $post->ID, 'rc_simulador_descricao', __( 'Descrição', 'racing-centers' ) );
-			?>
-			<h4 class="rc-section-heading rc-section-heading--sub"><?php esc_html_e( 'Detalhes de Hardware', 'racing-centers' ); ?></h4>
-			<?php
-			$this->text_field( $post->ID, 'rc_dd_modelo', __( 'Direct Drive – Modelo', 'racing-centers' ) );
-			$this->text_field( $post->ID, 'rc_volante_modelo', __( 'Volante – Modelo', 'racing-centers' ) );
-			$this->text_field( $post->ID, 'rc_pedal_modelo', __( 'Pedais – Modelo', 'racing-centers' ) );
-			$this->text_field( $post->ID, 'rc_monitor', __( 'Monitor', 'racing-centers' ) );
-			$this->textarea_field( $post->ID, 'rc_perifericos_lista', __( 'Periféricos (um por linha)', 'racing-centers' ), __( 'Each line becomes a list item.', 'racing-centers' ) );
-			$this->text_field( $post->ID, 'rc_simulador_link', __( 'Link do Simulador', 'racing-centers' ), '', 'url' );
-			$this->text_field( $post->ID, 'rc_simulador_produtos_ids', __( 'IDs de Produtos do Simulador', 'racing-centers' ), __( 'Comma-separated product IDs linked to this simulator.', 'racing-centers' ) );
-			?>
+			<h4 class="rc-section-heading"><?php esc_html_e( 'Simuladores', 'racing-centers' ); ?></h4>
+			<?php $this->render_simuladores_repeater( $post->ID ); ?>
 		</div>
 
 		<?php
 		echo '</div>';
+	}
+
+	/**
+	 * Render the simulator repeater UI.
+	 *
+	 * @param int $post_id Post ID.
+	 */
+	private function render_simuladores_repeater( int $post_id ): void {
+		$raw   = (string) get_post_meta( $post_id, 'rc_simuladores', true );
+		$sims  = array();
+		if ( $raw ) {
+			$decoded = json_decode( $raw, true );
+			if ( is_array( $decoded ) ) {
+				$sims = $decoded;
+			}
+		}
+		$count = count( $sims );
+		?>
+		<div id="rc-simuladores-list">
+			<?php foreach ( $sims as $i => $sim ) : ?>
+				<?php $this->render_simulador_item( $sim, $i ); ?>
+			<?php endforeach; ?>
+		</div>
+
+		<button type="button" class="button button-primary" id="rc-simulador-add" style="margin-top:10px;">
+			<?php esc_html_e( '+ Adicionar Simulador', 'racing-centers' ); ?>
+		</button>
+
+		<?php /* Template used by JS when adding a new item. */ ?>
+		<script type="text/html" id="rc-sim-template">
+			<?php $this->render_simulador_item( array(), '__IDX__' ); ?>
+		</script>
+		<input type="hidden" id="rc-sim-next-index" value="<?php echo esc_attr( $count ); ?>" />
+		<?php
+	}
+
+	/**
+	 * Output the HTML for one simulator repeater item.
+	 *
+	 * Used both by the PHP loop (existing data) and as the JS template
+	 * (index = '__IDX__', $sim = []).
+	 *
+	 * @param array      $sim   Simulator data.
+	 * @param int|string $index Numeric index or '__IDX__' for the JS template.
+	 */
+	private function render_simulador_item( array $sim, $index ): void {
+		$is_template = ( '__IDX__' === $index );
+		$titulo      = esc_attr( $sim['titulo'] ?? '' );
+		$header_text = $titulo ?: __( 'Novo Simulador', 'racing-centers' );
+		$imagem      = $is_template ? 0 : (int) ( $sim['imagem'] ?? 0 );
+		$thumb_url   = ( $imagem > 0 ) ? wp_get_attachment_image_url( $imagem, 'thumbnail' ) : '';
+		$idx         = esc_attr( (string) $index );
+		?>
+		<div class="rc-sim-item" data-index="<?php echo $idx; ?>">
+			<div class="rc-sim-item__header">
+				<span class="rc-sim-item__title"><?php echo esc_html( $header_text ); ?></span>
+				<div class="rc-sim-item__actions">
+					<button type="button" class="button rc-sim-toggle">▼</button>
+					<button type="button" class="rc-sim-remove">
+						<?php esc_html_e( 'Remover', 'racing-centers' ); ?>
+					</button>
+				</div>
+			</div>
+			<div class="rc-sim-item__body">
+
+				<?php /* Image */ ?>
+				<div class="rc-field-row rc-media-field" data-key="rc_sim[<?php echo $idx; ?>][imagem]">
+					<label class="rc-field-label"><?php esc_html_e( 'Imagem', 'racing-centers' ); ?></label>
+					<div class="rc-media-preview">
+						<?php if ( $thumb_url ) : ?>
+							<img src="<?php echo esc_url( $thumb_url ); ?>" alt="" />
+						<?php endif; ?>
+					</div>
+					<input type="hidden" name="rc_sim[<?php echo $idx; ?>][imagem]" value="<?php echo esc_attr( $imagem ?: '' ); ?>" class="rc-media-id" />
+					<button type="button" class="button rc-media-upload"><?php esc_html_e( 'Selecionar Imagem', 'racing-centers' ); ?></button>
+					<button type="button" class="button rc-media-remove<?php echo $thumb_url ? '' : ' rc-hidden'; ?>"><?php esc_html_e( 'Remover', 'racing-centers' ); ?></button>
+				</div>
+
+				<?php /* Linha / Badge */ ?>
+				<div class="rc-field-row">
+					<label class="rc-field-label"><?php esc_html_e( 'Linha (badge sobre a imagem)', 'racing-centers' ); ?></label>
+					<input type="text" name="rc_sim[<?php echo $idx; ?>][linha]" value="<?php echo esc_attr( $sim['linha'] ?? '' ); ?>" class="rc-text-input rc-sim-field" data-field="linha" placeholder="Ex: LINHA FÓRMULA" />
+				</div>
+
+				<?php /* Título */ ?>
+				<div class="rc-field-row">
+					<label class="rc-field-label"><?php esc_html_e( 'Título', 'racing-centers' ); ?></label>
+					<input type="text" name="rc_sim[<?php echo $idx; ?>][titulo]" value="<?php echo esc_attr( $sim['titulo'] ?? '' ); ?>" class="rc-text-input rc-sim-field rc-sim-title-field" data-field="titulo" placeholder="Ex: SIMULADOR PRS FORMULA" />
+				</div>
+
+				<?php /* Subtítulo */ ?>
+				<div class="rc-field-row">
+					<label class="rc-field-label"><?php esc_html_e( 'Subtítulo / Modelo', 'racing-centers' ); ?></label>
+					<input type="text" name="rc_sim[<?php echo $idx; ?>][subtitulo]" value="<?php echo esc_attr( $sim['subtitulo'] ?? '' ); ?>" class="rc-text-input rc-sim-field" data-field="subtitulo" placeholder="Ex: Professional 4" />
+				</div>
+
+				<?php /* Descrição */ ?>
+				<div class="rc-field-row">
+					<label class="rc-field-label"><?php esc_html_e( 'Descrição', 'racing-centers' ); ?></label>
+					<textarea name="rc_sim[<?php echo $idx; ?>][descricao]" class="rc-textarea rc-sim-field" data-field="descricao" rows="3"><?php echo esc_textarea( $sim['descricao'] ?? '' ); ?></textarea>
+				</div>
+
+				<?php /* Itens em destaque (spec boxes) */ ?>
+				<h5 style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#50575e;margin:14px 0 10px;border-top:1px solid #e0e0e0;padding-top:12px;">
+					<?php esc_html_e( 'Itens em Destaque', 'racing-centers' ); ?>
+				</h5>
+				<div class="rc-sim-specs-grid">
+					<div class="rc-field-row">
+						<label class="rc-field-label"><?php esc_html_e( 'Direct Drive', 'racing-centers' ); ?></label>
+						<input type="text" name="rc_sim[<?php echo $idx; ?>][dd_modelo]" value="<?php echo esc_attr( $sim['dd_modelo'] ?? '' ); ?>" class="rc-text-input rc-sim-field" data-field="dd_modelo" placeholder="Ex: 21 PRO" />
+					</div>
+					<div class="rc-field-row">
+						<label class="rc-field-label"><?php esc_html_e( 'Volante', 'racing-centers' ); ?></label>
+						<input type="text" name="rc_sim[<?php echo $idx; ?>][volante_modelo]" value="<?php echo esc_attr( $sim['volante_modelo'] ?? '' ); ?>" class="rc-text-input rc-sim-field" data-field="volante_modelo" placeholder="Ex: SR GT PRO" />
+					</div>
+					<div class="rc-field-row">
+						<label class="rc-field-label"><?php esc_html_e( 'Pedais', 'racing-centers' ); ?></label>
+						<input type="text" name="rc_sim[<?php echo $idx; ?>][pedal_modelo]" value="<?php echo esc_attr( $sim['pedal_modelo'] ?? '' ); ?>" class="rc-text-input rc-sim-field" data-field="pedal_modelo" placeholder="Ex: PRS 2 Sport" />
+					</div>
+					<div class="rc-field-row">
+						<label class="rc-field-label"><?php esc_html_e( 'Monitor', 'racing-centers' ); ?></label>
+						<input type="text" name="rc_sim[<?php echo $idx; ?>][monitor]" value="<?php echo esc_attr( $sim['monitor'] ?? '' ); ?>" class="rc-text-input rc-sim-field" data-field="monitor" placeholder="Ex: 32&quot; Curvo" />
+					</div>
+				</div>
+
+				<?php /* Equipamentos e Periféricos */ ?>
+				<div class="rc-field-row">
+					<label class="rc-field-label"><?php esc_html_e( 'Equipamentos e Periféricos (um por linha)', 'racing-centers' ); ?></label>
+					<textarea name="rc_sim[<?php echo $idx; ?>][perifericos_lista]" class="rc-textarea rc-sim-field" data-field="perifericos_lista" rows="5"><?php echo esc_textarea( $sim['perifericos_lista'] ?? '' ); ?></textarea>
+				</div>
+
+				<?php /* Link */ ?>
+				<div class="rc-field-row">
+					<label class="rc-field-label"><?php esc_html_e( 'Link "Ver na Loja"', 'racing-centers' ); ?></label>
+					<input type="url" name="rc_sim[<?php echo $idx; ?>][link]" value="<?php echo esc_attr( $sim['link'] ?? '' ); ?>" class="rc-text-input rc-sim-field" data-field="link" placeholder="https://" />
+				</div>
+
+			</div><?php /* /.rc-sim-item__body */ ?>
+		</div><?php /* /.rc-sim-item */ ?>
+		<?php
 	}
 
 	/**

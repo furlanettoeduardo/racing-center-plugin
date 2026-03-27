@@ -79,6 +79,9 @@ class RC_Dynamic_Tags {
 		// Galeria.
 		'RC_Tag_Galeria'                => 'class-tag-galeria.php',
 
+		// Simulador — carousel section.
+		'RC_Tag_Simulador_Carousel'     => 'class-tag-simulador-carousel.php',
+
 		// Depoimentos.
 		'RC_Tag_Google_Place_ID'        => 'class-tag-google-place-id.php',
 

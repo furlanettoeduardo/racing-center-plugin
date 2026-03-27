@@ -167,19 +167,29 @@ class RC_Save {
 		// Produtos fields.
 		$this->save_text( $post_id, 'rc_produtos_ids' );
 
-		// Simulador fields.
-		$this->save_int( $post_id, 'rc_simulador_imagem' );
-		$this->save_text( $post_id, 'rc_simulador_titulo_linha' );
-		$this->save_text( $post_id, 'rc_simulador_nome' );
-		$this->save_text( $post_id, 'rc_simulador_modelo' );
-		$this->save_textarea( $post_id, 'rc_simulador_descricao' );
-		$this->save_text( $post_id, 'rc_dd_modelo' );
-		$this->save_text( $post_id, 'rc_volante_modelo' );
-		$this->save_text( $post_id, 'rc_pedal_modelo' );
-		$this->save_text( $post_id, 'rc_monitor' );
-		$this->save_textarea( $post_id, 'rc_perifericos_lista' );
-		$this->save_url( $post_id, 'rc_simulador_link' );
-		$this->save_text( $post_id, 'rc_simulador_produtos_ids' );
+		// Multi-simulator repeater — store as JSON.
+		if ( isset( $_POST['rc_sim'] ) && is_array( $_POST['rc_sim'] ) ) {
+			$clean = array();
+			foreach ( array_values( $_POST['rc_sim'] ) as $sim ) {
+				if ( ! is_array( $sim ) ) {
+					continue;
+				}
+				$clean[] = array(
+					'imagem'            => absint( $sim['imagem'] ?? 0 ),
+					'linha'             => sanitize_text_field( wp_unslash( $sim['linha'] ?? '' ) ),
+					'titulo'            => sanitize_text_field( wp_unslash( $sim['titulo'] ?? '' ) ),
+					'subtitulo'         => sanitize_text_field( wp_unslash( $sim['subtitulo'] ?? '' ) ),
+					'descricao'         => sanitize_textarea_field( wp_unslash( $sim['descricao'] ?? '' ) ),
+					'dd_modelo'         => sanitize_text_field( wp_unslash( $sim['dd_modelo'] ?? '' ) ),
+					'volante_modelo'    => sanitize_text_field( wp_unslash( $sim['volante_modelo'] ?? '' ) ),
+					'pedal_modelo'      => sanitize_text_field( wp_unslash( $sim['pedal_modelo'] ?? '' ) ),
+					'monitor'           => sanitize_text_field( wp_unslash( $sim['monitor'] ?? '' ) ),
+					'perifericos_lista' => sanitize_textarea_field( wp_unslash( $sim['perifericos_lista'] ?? '' ) ),
+					'link'              => esc_url_raw( wp_unslash( $sim['link'] ?? '' ) ),
+				);
+			}
+			update_post_meta( $post_id, 'rc_simuladores', wp_json_encode( $clean ) );
+		}
 	}
 
 	/**
