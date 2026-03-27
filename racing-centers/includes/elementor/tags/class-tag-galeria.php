@@ -28,7 +28,7 @@ class RC_Tag_Galeria extends RC_Tag_Base {
 	}
 
 	public function get_categories(): array {
-		return array( \Elementor\Modules\DynamicTags\Module::HTML_CATEGORY );
+		return array( \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY );
 	}
 
 	public function render(): void {
