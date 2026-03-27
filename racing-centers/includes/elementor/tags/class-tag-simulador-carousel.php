@@ -38,10 +38,13 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			return;
 		}
 
-		$raw  = (string) get_post_meta( $post_id, 'rc_simuladores', true );
-		$sims = array();
-		if ( $raw ) {
-			$decoded = json_decode( $raw, true );
+		$stored = get_post_meta( $post_id, 'rc_simuladores', true );
+		$sims   = array();
+		if ( is_array( $stored ) ) {
+			$sims = $stored;
+		} elseif ( is_string( $stored ) && $stored ) {
+			// Legacy: value was stored as JSON string.
+			$decoded = json_decode( $stored, true );
 			if ( is_array( $decoded ) ) {
 				$sims = $decoded;
 			}

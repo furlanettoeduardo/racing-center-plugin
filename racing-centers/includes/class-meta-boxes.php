@@ -377,18 +377,16 @@ class RC_Meta_Boxes {
 	 * @param int $post_id Post ID.
 	 */
 	private function render_simuladores_repeater( int $post_id ): void {
-		$raw   = (string) get_post_meta( $post_id, 'rc_simuladores', true );
-		$sims  = array();
-		if ( $raw ) {
-			$decoded = json_decode( $raw, true );
+		$stored = get_post_meta( $post_id, 'rc_simuladores', true );
+		$sims   = array();
+		if ( is_array( $stored ) ) {
+			$sims = $stored;
+		} elseif ( is_string( $stored ) && $stored ) {
+			// Legacy: value was stored as JSON string.
+			$decoded = json_decode( $stored, true );
 			if ( is_array( $decoded ) ) {
 				$sims = $decoded;
 			}
-		}
-		// DEBUG — remove after diagnosing.
-		error_log( '[RC_Read] post_id=' . $post_id . ' | raw len=' . strlen( $raw ) . ' | sims count=' . count( $sims ) . ' | json_error=' . json_last_error_msg() ); // phpcs:ignore
-		if ( $raw ) {
-			error_log( '[RC_Read] raw (first 300): ' . substr( $raw, 0, 300 ) ); // phpcs:ignore
 		}
 		$count = count( $sims );
 		?>
