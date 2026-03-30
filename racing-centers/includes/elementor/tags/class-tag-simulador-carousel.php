@@ -219,13 +219,13 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__section-title {
 			font-family: 'Oswald', sans-serif;
-			font-size: clamp(40px, 3vw, 36px);
+			font-size: clamp(24px, 4vw, 48px);
 			font-weight: 900;
 			text-transform: uppercase;
 			color: var(--rc-sim-txt);
 			line-height: 1.1;
 			margin: 0;
-			white-space: nowrap;
+			word-break: break-word;
 		}
 
 		/* Arrows */
@@ -352,9 +352,14 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 		/* Spec boxes */
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__specs {
 			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+			grid-template-columns: repeat(4, 1fr);
 			gap: 8px;
 			margin-bottom: 20px;
+		}
+		@media (max-width: 767px) {
+			#<?php echo esc_attr( $uid ); ?> .rc-sims__specs {
+				grid-template-columns: 1fr 1fr;
+			}
 		}
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__spec {
 			border: 1px solid var(--rc-sim-border);
