@@ -36,6 +36,7 @@ class RC_Save {
 	 * @var array<string, string>
 	 */
 	private const NONCES = array(
+		'rc_template_nonce'           => 'rc_template_nonce_action',
 		'rc_hero_nonce'               => 'rc_hero_nonce_action',
 		'rc_informacoes_nonce'        => 'rc_informacoes_nonce_action',
 		'rc_conteudo_nonce'           => 'rc_conteudo_nonce_action',
@@ -100,6 +101,7 @@ class RC_Save {
 		}
 
 		// 5. Save each field group.
+		$this->save_template( $post_id );
 		$this->save_hero( $post_id );
 		$this->save_informacoes( $post_id );
 		$this->save_conteudo( $post_id );
@@ -111,6 +113,25 @@ class RC_Save {
 	// -------------------------------------------------------------------------
 	// Field group savers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Persist template override field.
+	 *
+	 * @param int $post_id Post ID.
+	 */
+	private function save_template( int $post_id ): void {
+		if ( ! isset( $_POST['rc_elementor_template_id'] ) ) {
+			return;
+		}
+
+		$template_id = absint( $_POST['rc_elementor_template_id'] );
+
+		if ( $template_id && 'elementor_library' !== get_post_type( $template_id ) ) {
+			$template_id = 0;
+		}
+
+		update_post_meta( $post_id, 'rc_elementor_template_id', $template_id );
+	}
 
 	/**
 	 * Persist Hero fields.

@@ -6,6 +6,7 @@
  * their HTML. Each meta box has its own nonce for security.
  *
  * Sections:
+ *   0. Template
  *   1. Hero
  *   2. Informações
  *   3. Conteúdo
@@ -104,6 +105,11 @@ class RC_Meta_Boxes {
 	public function register_meta_boxes(): void {
 		$boxes = array(
 			array(
+				'id'       => 'rc_template',
+				'title'    => __( '🧩 Template', 'racing-centers' ),
+				'callback' => 'render_template',
+			),
+			array(
 				'id'       => 'rc_hero',
 				'title'    => __( '🖼️ Hero Section', 'racing-centers' ),
 				'callback' => 'render_hero',
@@ -160,6 +166,36 @@ class RC_Meta_Boxes {
 	 */
 	private function get_meta( int $post_id, string $key ): string {
 		return (string) get_post_meta( $post_id, $key, true );
+	}
+
+	/**
+	 * Return Elementor Theme Builder "single" templates.
+	 *
+	 * @return WP_Post[]
+	 */
+	private function get_elementor_single_templates(): array {
+		if ( ! post_type_exists( 'elementor_library' ) ) {
+			return array();
+		}
+
+		$templates = get_posts(
+			array(
+				'post_type'      => 'elementor_library',
+				'post_status'    => array( 'publish', 'private' ),
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+				'meta_query'     => array(
+					array(
+						'key'     => '_elementor_template_type',
+						'value'   => array( 'single', 'single-post', 'single-page' ),
+						'compare' => 'IN',
+					),
+				),
+			)
+		);
+
+		return is_array( $templates ) ? $templates : array();
 	}
 
 	/**
@@ -257,6 +293,36 @@ class RC_Meta_Boxes {
 	// -------------------------------------------------------------------------
 	// Meta box renderers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Template selection meta box.
+	 *
+	 * @param WP_Post $post Current post object.
+	 */
+	public function render_template( WP_Post $post ): void {
+		wp_nonce_field( 'rc_template_nonce_action', 'rc_template_nonce' );
+
+		$selected  = absint( $this->get_meta( $post->ID, 'rc_elementor_template_id' ) );
+		$templates = $this->get_elementor_single_templates();
+		?>
+		<div class="rc-meta-box">
+			<div class="rc-field-row">
+				<label class="rc-field-label" for="rc_elementor_template_id"><?php esc_html_e( 'Template Elementor (Single)', 'racing-centers' ); ?></label>
+				<select id="rc_elementor_template_id" name="rc_elementor_template_id" class="rc-text-input">
+					<option value="0"><?php esc_html_e( 'Padrão do Theme Builder (sem override)', 'racing-centers' ); ?></option>
+					<?php foreach ( $templates as $template ) : ?>
+						<option value="<?php echo esc_attr( $template->ID ); ?>" <?php selected( $selected, (int) $template->ID ); ?>>
+							<?php echo esc_html( $template->post_title . ' (#' . $template->ID . ')' ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+				<p class="rc-field-desc">
+					<?php esc_html_e( 'Escolha um template Single do Elementor para este Racing Center. O template selecionado substitui o Single padrão apenas neste post.', 'racing-centers' ); ?>
+				</p>
+			</div>
+		</div>
+		<?php
+	}
 
 	/**
 	 * Hero Section meta box.

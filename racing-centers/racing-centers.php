@@ -3,7 +3,7 @@
  * Plugin Name:       Racing Centers
  * Plugin URI:        https://example.com/racing-centers
  * Description:       A data-driven system for managing Racing Centers — CPT, meta boxes, admin UI, and Elementor Dynamic Tags.
- * Version:           2.3.7
+ * Version:           2.3.8
  * Requires at least: 6.0
  * Requires PHP:      8.2
  * Author:            Eduardo Furlanetto Nunes
@@ -35,7 +35,7 @@ final class Racing_Centers {
 	 *
 	 * @var string
 	 */
-	const VERSION = '2.3.7';
+	const VERSION = '2.3.8';
 
 	/**
 	 * Absolute path to the plugin root directory (no trailing slash).
@@ -47,7 +47,7 @@ final class Racing_Centers {
 	/**
 	 * Absolute URL to the plugin root directory (no trailing slash).
 	 *
-	 * @var string
+	 * @var string[]
 	 */
 	const PLUGIN_URL = ''; // Populated at runtime – see get_instance().
 
@@ -133,6 +133,9 @@ final class Racing_Centers {
 		// Frontend stylesheet — enqueued on racing_center single pages.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
 
+		// Per-post Elementor Theme Builder template override for Racing Centers.
+		add_filter( 'elementor/theme/get_location_templates/template_id', array( $this, 'override_elementor_single_template' ), 10, 2 );
+
 		// Elementor Dynamic Tags — hook fires only when Elementor is active.
 		add_action( 'elementor/dynamic_tags/register', array( $this, 'register_elementor_tags' ) );
 	}
@@ -156,6 +159,37 @@ final class Racing_Centers {
 			array(),
 			self::VERSION
 		);
+	}
+
+	/**
+	 * Override Elementor Theme Builder single template per Racing Center.
+	 *
+	 * Hooked to: elementor/theme/get_location_templates/template_id
+	 *
+	 * @param int|string $template_id Resolved template ID from Elementor.
+	 * @param string     $location    Elementor location slug.
+	 * @return int|string
+	 */
+	public function override_elementor_single_template( $template_id, string $location ) {
+		if ( 'single' !== $location || ! is_singular( 'racing_center' ) ) {
+			return $template_id;
+		}
+
+		$post_id = get_queried_object_id();
+		if ( ! $post_id ) {
+			return $template_id;
+		}
+
+		$selected_template_id = absint( get_post_meta( $post_id, 'rc_elementor_template_id', true ) );
+		if ( ! $selected_template_id ) {
+			return $template_id;
+		}
+
+		if ( 'elementor_library' !== get_post_type( $selected_template_id ) ) {
+			return $template_id;
+		}
+
+		return $selected_template_id;
 	}
 
 	// -------------------------------------------------------------------------
