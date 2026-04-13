@@ -4,6 +4,51 @@
  */
 
 /* ==========================================================================
+   Header Contrast (enabled per Racing Center)
+   ========================================================================== */
+
+body.rc-header-light .elementor-location-header,
+body.rc-header-light .site-header,
+body.rc-header-light header {
+	color: #ffffff;
+}
+
+body.rc-header-light .elementor-location-header a,
+body.rc-header-light .site-header a,
+body.rc-header-light header a,
+body.rc-header-light .elementor-location-header .elementor-item,
+body.rc-header-light .site-header .menu > li > a,
+body.rc-header-light header .menu > li > a {
+	color: #ffffff !important;
+}
+
+body.rc-header-light .elementor-location-header svg,
+body.rc-header-light .site-header svg,
+body.rc-header-light header svg {
+	fill: currentColor;
+	stroke: currentColor;
+}
+
+body.rc-header-light .elementor-location-header .elementor-icon,
+body.rc-header-light .site-header .elementor-icon,
+body.rc-header-light header .elementor-icon,
+body.rc-header-light .elementor-location-header i,
+body.rc-header-light .site-header i,
+body.rc-header-light header i {
+	color: #ffffff !important;
+}
+
+body.rc-header-light .elementor-location-header a:hover,
+body.rc-header-light .site-header a:hover,
+body.rc-header-light header a:hover,
+body.rc-header-light .elementor-location-header .elementor-item-active,
+body.rc-header-light .elementor-location-header .current-menu-item > a,
+body.rc-header-light .site-header .current-menu-item > a,
+body.rc-header-light header .current-menu-item > a {
+	color: #EC1313 !important;
+}
+
+/* ==========================================================================
    Botão Traçar Rota
    ========================================================================== */
 

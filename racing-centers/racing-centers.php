@@ -3,7 +3,7 @@
  * Plugin Name:       Racing Centers
  * Plugin URI:        https://example.com/racing-centers
  * Description:       A data-driven system for managing Racing Centers — CPT, meta boxes, admin UI, and Elementor Dynamic Tags.
- * Version:           2.4.0
+ * Version:           2.4.1
  * Requires at least: 6.0
  * Requires PHP:      8.2
  * Author:            Eduardo Furlanetto Nunes
@@ -35,7 +35,7 @@ final class Racing_Centers {
 	 *
 	 * @var string
 	 */
-	const VERSION = '2.4.0';
+	const VERSION = '2.4.1';
 
 	/**
 	 * Absolute path to the plugin root directory (no trailing slash).
@@ -132,6 +132,7 @@ final class Racing_Centers {
 
 		// Frontend stylesheet — enqueued on racing_center single pages.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
+		add_filter( 'body_class', array( $this, 'add_frontend_body_classes' ) );
 
 		// Per-post Elementor Theme Builder template override for Racing Centers.
 		add_filter( 'elementor/theme/get_location_templates/template_id', array( $this, 'override_elementor_single_template' ), 10, 2 );
@@ -159,6 +160,29 @@ final class Racing_Centers {
 			array(),
 			self::VERSION
 		);
+	}
+
+	/**
+	 * Add per-center body classes used by frontend visual toggles.
+	 *
+	 * @param array<int, string> $classes Existing body classes.
+	 * @return array<int, string>
+	 */
+	public function add_frontend_body_classes( array $classes ): array {
+		if ( ! is_singular( 'racing_center' ) ) {
+			return $classes;
+		}
+
+		$post_id = get_queried_object_id();
+		if ( ! $post_id ) {
+			return $classes;
+		}
+
+		if ( absint( get_post_meta( $post_id, 'rc_header_light_text', true ) ) ) {
+			$classes[] = 'rc-header-light';
+		}
+
+		return $classes;
 	}
 
 	/**

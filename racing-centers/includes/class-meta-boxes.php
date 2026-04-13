@@ -304,6 +304,7 @@ class RC_Meta_Boxes {
 
 		$selected  = absint( $this->get_meta( $post->ID, 'rc_elementor_template_id' ) );
 		$is_dark   = (bool) absint( $this->get_meta( $post->ID, 'rc_theme_is_dark' ) );
+		$header_on_dark = (bool) absint( $this->get_meta( $post->ID, 'rc_header_light_text' ) );
 		$templates = $this->get_elementor_single_templates();
 		?>
 		<div class="rc-meta-box">
@@ -330,6 +331,17 @@ class RC_Meta_Boxes {
 				</label>
 				<p class="rc-field-desc">
 					<?php esc_html_e( 'Ative para usar cores claras nos widgets do simulador em layouts com fundo escuro.', 'racing-centers' ); ?>
+				</p>
+			</div>
+
+			<div class="rc-field-row">
+				<label class="rc-field-label"><?php esc_html_e( 'Cabeçalho sobre fundo escuro', 'racing-centers' ); ?></label>
+				<label style="display:inline-flex;align-items:center;gap:8px;">
+					<input type="checkbox" name="rc_header_light_text" value="1" <?php checked( $header_on_dark ); ?> />
+					<?php esc_html_e( 'Forçar menus e ícones do cabeçalho em branco', 'racing-centers' ); ?>
+				</label>
+				<p class="rc-field-desc">
+					<?php esc_html_e( 'Use quando o header for transparente e o fundo da página for escuro. Aplica-se somente neste Racing Center.', 'racing-centers' ); ?>
 				</p>
 			</div>
 		</div>
