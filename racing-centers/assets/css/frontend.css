@@ -163,3 +163,32 @@ a.rc-produto-card:hover {
 	color: #EC1313;
 	margin: 0;
 }
+
+.rc-produtos-cards.rc-theme-dark a.rc-produto-card {
+	background: #202020;
+	border-color: rgba(255, 255, 255, 0.22);
+}
+
+.rc-produtos-cards.rc-theme-dark a.rc-produto-card:hover {
+	box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.rc-produtos-cards.rc-theme-dark .rc-produto-card__info {
+	background: #202020;
+}
+
+.rc-produtos-cards.rc-theme-dark .rc-produto-card__name,
+.rc-produtos-cards.rc-theme-dark .rc-produto-card__current-price,
+.rc-produtos-cards.rc-theme-dark .rc-produto-card__current-price .woocommerce-Price-amount {
+	color: #ffffff;
+}
+
+.rc-produtos-cards.rc-theme-dark .rc-produto-card__regular-price,
+.rc-produtos-cards.rc-theme-dark .rc-produto-card__regular-price .woocommerce-Price-amount {
+	color: rgba(255, 255, 255, 0.72);
+}
+
+.rc-produtos-cards.rc-theme-dark .rc-produto-card__pix-price,
+.rc-produtos-cards.rc-theme-dark .rc-produto-card__pix-price .woocommerce-Price-amount {
+	color: #EC1313;
+}

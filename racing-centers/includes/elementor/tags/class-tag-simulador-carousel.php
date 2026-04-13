@@ -55,9 +55,10 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 
 		$uid        = 'rc-sims-' . absint( $post_id );
 		$has_many   = count( $sims ) > 1;
+		$is_dark    = (bool) absint( get_post_meta( $post_id, 'rc_theme_is_dark', true ) );
 		?>
 
-		<div class="rc-sims" id="<?php echo esc_attr( $uid ); ?>">
+		<div class="rc-sims<?php echo $is_dark ? ' rc-theme-dark' : ''; ?>" id="<?php echo esc_attr( $uid ); ?>">
 
 			<?php /* ── Section header ──────────────────────────────────── */ ?>
 			<div class="rc-sims__head">
@@ -187,6 +188,11 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			--rc-sim-border:   #e0e0e0;
 			--rc-sim-radius:   10px;
 		}
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark {
+			--rc-sim-txt:    #ffffff;
+			--rc-sim-muted:  rgba(255,255,255,.78);
+			--rc-sim-border: rgba(255,255,255,.22);
+		}
 
 		/* Head */
 		#<?php echo esc_attr( $uid ); ?> .rc-sims__head {
@@ -285,6 +291,24 @@ class RC_Tag_Simulador_Carousel extends RC_Tag_Base {
 			grid-template-columns: 1fr 1fr;
 			gap: 40px;
 			align-items: start;
+		}
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__content-col,
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__nome,
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__descricao,
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__perf-heading,
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__perf-list li,
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__spec-value {
+			color: #fff;
+		}
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__spec {
+			background: rgba(255,255,255,.03);
+			border-color: rgba(255,255,255,.24);
+		}
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__spec-label {
+			color: rgba(255,255,255,.70);
+		}
+		#<?php echo esc_attr( $uid ); ?>.rc-theme-dark .rc-sims__perf-list li::before {
+			background: #EC1313;
 		}
 		@media (max-width: 767px) {
 			#<?php echo esc_attr( $uid ); ?> .rc-sims__card {

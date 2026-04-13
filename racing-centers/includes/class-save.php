@@ -121,6 +121,7 @@ class RC_Save {
 	 */
 	private function save_template( int $post_id ): void {
 		if ( ! isset( $_POST['rc_elementor_template_id'] ) ) {
+			update_post_meta( $post_id, 'rc_theme_is_dark', ! empty( $_POST['rc_theme_is_dark'] ) ? 1 : 0 );
 			return;
 		}
 
@@ -131,6 +132,7 @@ class RC_Save {
 		}
 
 		update_post_meta( $post_id, 'rc_elementor_template_id', $template_id );
+		update_post_meta( $post_id, 'rc_theme_is_dark', ! empty( $_POST['rc_theme_is_dark'] ) ? 1 : 0 );
 	}
 
 	/**

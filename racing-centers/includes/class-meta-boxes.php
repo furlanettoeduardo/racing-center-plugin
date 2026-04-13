@@ -303,6 +303,7 @@ class RC_Meta_Boxes {
 		wp_nonce_field( 'rc_template_nonce_action', 'rc_template_nonce' );
 
 		$selected  = absint( $this->get_meta( $post->ID, 'rc_elementor_template_id' ) );
+		$is_dark   = (bool) absint( $this->get_meta( $post->ID, 'rc_theme_is_dark' ) );
 		$templates = $this->get_elementor_single_templates();
 		?>
 		<div class="rc-meta-box">
@@ -318,6 +319,17 @@ class RC_Meta_Boxes {
 				</select>
 				<p class="rc-field-desc">
 					<?php esc_html_e( 'Escolha um template Single do Elementor para este Racing Center. O template selecionado substitui o Single padrão apenas neste post.', 'racing-centers' ); ?>
+				</p>
+			</div>
+
+			<div class="rc-field-row">
+				<label class="rc-field-label"><?php esc_html_e( 'Tema do Racing Center', 'racing-centers' ); ?></label>
+				<label style="display:inline-flex;align-items:center;gap:8px;">
+					<input type="checkbox" name="rc_theme_is_dark" value="1" <?php checked( $is_dark ); ?> />
+					<?php esc_html_e( 'Tema escuro', 'racing-centers' ); ?>
+				</label>
+				<p class="rc-field-desc">
+					<?php esc_html_e( 'Ative para usar cores claras nos widgets do simulador em layouts com fundo escuro.', 'racing-centers' ); ?>
 				</p>
 			</div>
 		</div>

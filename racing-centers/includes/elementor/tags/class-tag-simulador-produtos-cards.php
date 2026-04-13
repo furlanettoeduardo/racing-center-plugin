@@ -61,7 +61,7 @@ class RC_Tag_Simulador_Produtos_Cards extends RC_Tag_Base {
 
 		?>
 
-		<div class="rc-produtos-cards">
+		<div class="rc-produtos-cards<?php echo (bool) absint( get_post_meta( $post_id, 'rc_theme_is_dark', true ) ) ? ' rc-theme-dark' : ''; ?>">
 			<?php foreach ( $ids as $product_id ) :
 				$product = wc_get_product( $product_id );
 				if ( ! $product || ! $product->is_visible() ) {
