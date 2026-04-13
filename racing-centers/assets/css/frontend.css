@@ -7,149 +7,56 @@
    Header Contrast (enabled per Racing Center)
    ========================================================================== */
 
-body.rc-header-light .elementor-location-header,
-body.rc-header-light .site-header,
-body.rc-header-light header {
-	color: #ffffff;
-}
-
-body.rc-header-light .elementor-location-header a,
-body.rc-header-light .site-header a,
-body.rc-header-light header a,
-body.rc-header-light .elementor-location-header .elementor-item,
-body.rc-header-light .site-header .menu > li > a,
-body.rc-header-light header .menu > li > a {
+/* Skuzz theme only: top transparent header => white menu/icons. */
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header a,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .menu > li > a,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .menu-item > a,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .menu-item > a span,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .main-menu > li > a,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .main-menu > li > a span,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .login-header,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .header-search-icon,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .woocommerce-cart-header,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .wishlist-box,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .compare-box,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header .icon,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header i {
 	color: #ffffff !important;
 }
 
-body.rc-header-light .elementor-location-header svg,
-body.rc-header-light .site-header svg,
-body.rc-header-light header svg {
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header svg,
+body.rc-header-light:not(.sticky-header-active) .bwp_hb.bwp-header svg * {
 	fill: currentColor;
 	stroke: currentColor;
 }
 
-body.rc-header-light .elementor-location-header .elementor-icon,
-body.rc-header-light .site-header .elementor-icon,
-body.rc-header-light header .elementor-icon,
-body.rc-header-light .elementor-location-header i,
-body.rc-header-light .site-header i,
-body.rc-header-light header i {
-	color: #ffffff !important;
-}
-
-body.rc-header-light .elementor-location-header a:hover,
-body.rc-header-light .site-header a:hover,
-body.rc-header-light header a:hover,
-body.rc-header-light .elementor-location-header .elementor-item-active,
-body.rc-header-light .elementor-location-header .current-menu-item > a,
-body.rc-header-light .site-header .current-menu-item > a,
-body.rc-header-light header .current-menu-item > a {
-	color: #EC1313 !important;
-}
-
-/* Sticky header fallback: when theme switches header to a light background,
-   force dark menu/icon colors for contrast. */
-body.rc-header-light .elementor-sticky--active,
-body.rc-header-light .elementor-sticky--effects,
-body.rc-header-light .is-sticky,
-body.rc-header-light .sticky,
-body.rc-header-light .sticky-header,
-body.rc-header-light .header-sticky {
-	color: #111111;
-}
-
-body.rc-header-light .elementor-sticky--active a,
-body.rc-header-light .elementor-sticky--effects a,
-body.rc-header-light .is-sticky a,
-body.rc-header-light .sticky a,
-body.rc-header-light .sticky-header a,
-body.rc-header-light .header-sticky a,
-body.rc-header-light .elementor-sticky--active .elementor-item,
-body.rc-header-light .elementor-sticky--effects .elementor-item,
-body.rc-header-light .is-sticky .elementor-item,
-body.rc-header-light .sticky .elementor-item,
-body.rc-header-light .sticky-header .elementor-item,
-body.rc-header-light .header-sticky .elementor-item {
+/* Skuzz theme sticky state: white background => dark menu/icons. */
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header a,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .menu > li > a,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .menu-item > a,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .menu-item > a span,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .main-menu > li > a,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .main-menu > li > a span,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .login-header,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .header-search-icon,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .woocommerce-cart-header,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .wishlist-box,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .compare-box,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header .icon,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header i {
 	color: #111111 !important;
 }
 
-body.rc-header-light .elementor-sticky--active .elementor-icon,
-body.rc-header-light .elementor-sticky--effects .elementor-icon,
-body.rc-header-light .is-sticky .elementor-icon,
-body.rc-header-light .sticky .elementor-icon,
-body.rc-header-light .sticky-header .elementor-icon,
-body.rc-header-light .header-sticky .elementor-icon,
-body.rc-header-light .elementor-sticky--active i,
-body.rc-header-light .elementor-sticky--effects i,
-body.rc-header-light .is-sticky i,
-body.rc-header-light .sticky i,
-body.rc-header-light .sticky-header i,
-body.rc-header-light .header-sticky i {
-	color: #111111 !important;
-}
-
-body.rc-header-light .elementor-sticky--active svg,
-body.rc-header-light .elementor-sticky--effects svg,
-body.rc-header-light .is-sticky svg,
-body.rc-header-light .sticky svg,
-body.rc-header-light .sticky-header svg,
-body.rc-header-light .header-sticky svg {
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header svg,
+body.rc-header-light.sticky-header-active .bwp_hb.bwp-header svg * {
 	fill: currentColor;
 	stroke: currentColor;
 }
 
-body.rc-header-light .elementor-sticky--active a:hover,
-body.rc-header-light .elementor-sticky--effects a:hover,
-body.rc-header-light .is-sticky a:hover,
-body.rc-header-light .sticky a:hover,
-body.rc-header-light .sticky-header a:hover,
-body.rc-header-light .header-sticky a:hover,
-body.rc-header-light .elementor-sticky--active .elementor-item-active,
-body.rc-header-light .elementor-sticky--effects .elementor-item-active,
-body.rc-header-light .is-sticky .elementor-item-active,
-body.rc-header-light .sticky .elementor-item-active,
-body.rc-header-light .sticky-header .elementor-item-active,
-body.rc-header-light .header-sticky .elementor-item-active,
-body.rc-header-light .elementor-sticky--active .current-menu-item > a,
-body.rc-header-light .elementor-sticky--effects .current-menu-item > a,
-body.rc-header-light .is-sticky .current-menu-item > a,
-body.rc-header-light .sticky .current-menu-item > a,
-body.rc-header-light .sticky-header .current-menu-item > a,
-body.rc-header-light .header-sticky .current-menu-item > a {
-	color: #EC1313 !important;
-}
-
-/* Skuzz theme sticky state (class added on body when scrolling). */
-body.rc-header-light.sticky-header-active .bwp-header a,
-body.rc-header-light.sticky-header-active .bwp-header .menu > li > a,
-body.rc-header-light.sticky-header-active .bwp-header .menu-item > a,
-body.rc-header-light.sticky-header-active .bwp-header .menu-item > a span,
-body.rc-header-light.sticky-header-active .bwp-header .main-menu > li > a,
-body.rc-header-light.sticky-header-active .bwp-header .main-menu > li > a span {
-	color: #111111 !important;
-}
-
-body.rc-header-light.sticky-header-active .bwp-header .login-header,
-body.rc-header-light.sticky-header-active .bwp-header .header-search-icon,
-body.rc-header-light.sticky-header-active .bwp-header .woocommerce-cart-header,
-body.rc-header-light.sticky-header-active .bwp-header .wishlist-box,
-body.rc-header-light.sticky-header-active .bwp-header .compare-box,
-body.rc-header-light.sticky-header-active .bwp-header .icon,
-body.rc-header-light.sticky-header-active .bwp-header i {
-	color: #111111 !important;
-}
-
-body.rc-header-light.sticky-header-active .bwp-header svg,
-body.rc-header-light.sticky-header-active .bwp-header svg * {
-	fill: currentColor;
-	stroke: currentColor;
-}
-
-body.rc-header-light.sticky-header-active .bwp-header .menu > li > a:hover,
-body.rc-header-light.sticky-header-active .bwp-header .menu-item > a:hover,
-body.rc-header-light.sticky-header-active .bwp-header .current-menu-item > a,
-body.rc-header-light.sticky-header-active .bwp-header .current-menu-ancestor > a {
+body.rc-header-light .bwp_hb.bwp-header .menu > li > a:hover,
+body.rc-header-light .bwp_hb.bwp-header .menu-item > a:hover,
+body.rc-header-light .bwp_hb.bwp-header .current-menu-item > a,
+body.rc-header-light .bwp_hb.bwp-header .current-menu-ancestor > a {
 	color: #EC1313 !important;
 }
 
