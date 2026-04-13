@@ -120,6 +120,39 @@ body.rc-header-light .header-sticky .current-menu-item > a {
 	color: #EC1313 !important;
 }
 
+/* Skuzz theme sticky state (class added on body when scrolling). */
+body.rc-header-light.sticky-header-active .bwp-header a,
+body.rc-header-light.sticky-header-active .bwp-header .menu > li > a,
+body.rc-header-light.sticky-header-active .bwp-header .menu-item > a,
+body.rc-header-light.sticky-header-active .bwp-header .menu-item > a span,
+body.rc-header-light.sticky-header-active .bwp-header .main-menu > li > a,
+body.rc-header-light.sticky-header-active .bwp-header .main-menu > li > a span {
+	color: #111111 !important;
+}
+
+body.rc-header-light.sticky-header-active .bwp-header .login-header,
+body.rc-header-light.sticky-header-active .bwp-header .header-search-icon,
+body.rc-header-light.sticky-header-active .bwp-header .woocommerce-cart-header,
+body.rc-header-light.sticky-header-active .bwp-header .wishlist-box,
+body.rc-header-light.sticky-header-active .bwp-header .compare-box,
+body.rc-header-light.sticky-header-active .bwp-header .icon,
+body.rc-header-light.sticky-header-active .bwp-header i {
+	color: #111111 !important;
+}
+
+body.rc-header-light.sticky-header-active .bwp-header svg,
+body.rc-header-light.sticky-header-active .bwp-header svg * {
+	fill: currentColor;
+	stroke: currentColor;
+}
+
+body.rc-header-light.sticky-header-active .bwp-header .menu > li > a:hover,
+body.rc-header-light.sticky-header-active .bwp-header .menu-item > a:hover,
+body.rc-header-light.sticky-header-active .bwp-header .current-menu-item > a,
+body.rc-header-light.sticky-header-active .bwp-header .current-menu-ancestor > a {
+	color: #EC1313 !important;
+}
+
 /* ==========================================================================
    Botão Traçar Rota
    ========================================================================== */
